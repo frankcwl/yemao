@@ -2,6 +2,8 @@ package com.frankcwl;
 
 import net.mamoe.mirai.console.data.Value;
 import net.mamoe.mirai.contact.Friend;
+import net.mamoe.mirai.message.data.*;
+import net.mamoe.mirai.utils.ExternalResource;
 import net.mamoe.mirai.utils.MiraiLogger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -127,7 +129,11 @@ public class Util {
                 logger.info(pathnameList.get(i) + "已下载完成");
             }
             if (!nicknameMap.containsKey(pathnameList.get(i))) {
-                friend.sendMessage("请为" + pathnameList.get(i) + "添加昵称（" + schoolName + "）");
+                MessageChain chain = new MessageChainBuilder()
+                        .append(new PlainText("请为" + pathnameList.get(i) + "添加昵称（" + schoolName + "）\n"))
+                        .append(ExternalResource.uploadAsImage(file, friend))
+                        .build();
+                friend.sendMessage(chain);
             }
         }
     }
