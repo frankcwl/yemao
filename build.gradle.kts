@@ -7,9 +7,12 @@ plugins {
 }
 
 group = "com.frankcwl"
-version = "1.0.0"
+version = "2.0.0"
 
 repositories {
     maven("https://maven.aliyun.com/repository/public")
     mavenCentral()
+}
+dependencies {
+    implementation("org.jsoup:jsoup:1.16.1")
 }
