@@ -1,6 +1,7 @@
 package com.frankcwl;
 
 import net.mamoe.mirai.console.command.CommandManager;
+import net.mamoe.mirai.console.data.Value;
 import net.mamoe.mirai.console.plugin.jvm.JavaPlugin;
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescriptionBuilder;
 import net.mamoe.mirai.event.Event;
@@ -28,7 +29,12 @@ public final class Yemao extends JavaPlugin {
         CommandManager.INSTANCE.registerCommand(YemaoCommand.INSTANCE, true);
         reloadPluginData(PathnameData.INSTANCE);
         reloadPluginData(NicknameData.INSTANCE);
+        reloadPluginConfig(YemaoConfig.INSTANCE);
+
+        Value<Long> theAdmin = YemaoConfig.INSTANCE.yemaoPath;
+        Long admin = theAdmin.get();
         Util.initialize();
+
         EventChannel<Event> eventChannel = GlobalEventChannel.INSTANCE.parentScope(this);
         // 每隔一天检查图片
         Timer timer = new Timer();
@@ -38,9 +44,9 @@ public final class Yemao extends JavaPlugin {
                 Util.downloadAll(false);
             }
         };
-        // bot上线时获得好友
+        // bot上线时获得管理员
         eventChannel.subscribeOnce(BotOnlineEvent.class, event -> {
-            Util.friend = event.getBot().getFriend(1174525384);
+            Util.friend = event.getBot().getFriend(admin);
             timer.schedule(task, 0, 24 * 60 * 60 * 1000);
         });
         // 回复消息

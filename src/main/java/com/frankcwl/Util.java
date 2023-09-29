@@ -109,7 +109,8 @@ public class Util {
                 if (pathnameList.get(i).equals(pathname)) {
                     logger.warning(pathname + "重复(" + schoolName + ")");
                     friend.sendMessage(pathname + "重复\n" + getNameString(line) + "\n"
-                            + getNameString(lines.get(i)) + "\n请添加皮肤条目");
+                            + getNameString(lines.get(i)) + "\n请添加皮肤条目\n" +
+                            "格式：/yemao costume 皮肤名 皮肤英文");
                 }
             }
             pathnameList.add(pathname);
@@ -129,16 +130,16 @@ public class Util {
                 logger.info(pathnameList.get(i) + "已下载完成");
             }
             if (!nicknameMap.containsKey(pathnameList.get(i))) {
-                MessageChain chain = new MessageChainBuilder()
-                        .append(new PlainText("请为" + pathnameList.get(i) + "添加昵称（" + schoolName + "）\n"))
-                        .append(ExternalResource.uploadAsImage(file, friend))
-                        .build();
-                friend.sendMessage(chain);
+                friend.sendMessage(
+                        new PlainText("请为" + pathnameList.get(i) + "添加昵称（" + schoolName + "）\n" +
+                        "格式：/yemao nickname " + pathnameList.get(i) +"昵称1 昵称2 ...")
+                        .plus(ExternalResource.uploadAsImage(file, friend)));
             }
         }
     }
 
     public static void downloadAll(boolean forceDownload) {
+        logger.info("开始下载图片");
         for (String schoolName : cvMap.keySet()) {
             try {
                 download(schoolName, forceDownload);
@@ -147,5 +148,6 @@ public class Util {
                 friend.sendMessage("下载" + schoolName + "时出现IO错误\n" + e);
             }
         }
+        logger.info("下载完成");
     }
 }
