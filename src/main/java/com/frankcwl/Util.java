@@ -76,7 +76,7 @@ public class Util {
                 .timeout(3000)
                 .get();
         // 获取含有角色名的段落
-        Elements lines = doc.select("p:matches([ア-ン])");
+        Elements lines = doc.select("p:matches([あ-んア-ン])");
         ArrayList<String> pathnameList = new ArrayList<>();
 
         for (Element line : lines) {

@@ -18,7 +18,7 @@ import java.util.TimerTask;
 public final class Yemao extends JavaPlugin {
     public static final Yemao INSTANCE = new Yemao();
     private Yemao() {
-        super(new JvmPluginDescriptionBuilder("com.frankcwl.yemao", "2.0.0")
+        super(new JvmPluginDescriptionBuilder("com.frankcwl.yemao", "2.0.2")
                 .name("yemao")
                 .author("frankcwl")
                 .build());
@@ -51,6 +51,20 @@ public final class Yemao extends JavaPlugin {
         });
         // 回复消息
         eventChannel.subscribeAlways(GroupMessageEvent.class, event -> {
+            String message = event.getMessage().contentToString();
+            if (message.startsWith(".")) {
+                String context = message.substring(1);
+                String name = Util.checkName(context);
+                if (name != null) {
+                    File file = resolveDataFile("yemao/" + name + ".png");
+                    if (file.exists()) {
+                        Image image = ExternalResource.uploadAsImage(file, event.getSubject());
+                        event.getSubject().sendMessage(image);
+                    }
+                }
+            }
+        });
+        eventChannel.subscribeAlways(FriendMessageEvent.class, event -> {
             String message = event.getMessage().contentToString();
             if (message.startsWith(".")) {
                 String context = message.substring(1);

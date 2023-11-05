@@ -42,8 +42,9 @@ public class YemaoCommand extends JCompositeCommand {
 
     @SubCommand
     @Description("重新下载所有图片")
-    public void dowanload(CommandSender sender) {
+    public void download(CommandSender sender) {
+        if (sender.getSubject() != null) sender.getSubject().sendMessage("开始下载");
         Util.downloadAll(true);
-        if (sender.getSubject() != null) sender.getSubject().sendMessage("开始重新下载");
+        if (sender.getSubject() != null) sender.getSubject().sendMessage("下载完成");
     }
 }
