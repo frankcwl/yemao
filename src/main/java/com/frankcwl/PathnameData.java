@@ -24,6 +24,9 @@ public class PathnameData extends JavaAutoSavePluginData {
                 put("Yuka", "Yuuka");
                 put("Arisu", "Aris");
                 put("Miku", "Hatsune_Miku");
+                put("Mikoto", "Misaka_Mikoto");
+                put("Ruiko", "Saten_Ruiko");
+                put("Misaki_Special", "Shokuhou_Misaki");
             }}
     );
 

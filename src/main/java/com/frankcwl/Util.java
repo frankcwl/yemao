@@ -92,7 +92,10 @@ public class Util {
                 continue;
             }
             pathname = pathname.toLowerCase().replaceFirst("^(\\w)", String.valueOf(pathname.charAt(0)).toUpperCase());
-            // 重定向角色名
+            // 重定向角色名（食蜂操祈重名特殊处理）
+            if (pathname.equals("Misaki") && line.text().contains("连动")) {
+                pathname += "_Special";
+            }
             if (redirectMap.get(pathname) != null) {
                 pathname = redirectMap.get(pathname);
             }
