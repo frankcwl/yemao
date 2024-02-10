@@ -1,0 +1,13 @@
+cv_map:
+  Trinity: cv20557188
+  SRT: cv20550020
+  Abydos: cv20550621
+  Gehenna: cv20550762
+  Millennium: cv20560474
+redirect_map:
+  Ruiko: Saten_Ruiko
+  Arisu: Aris
+  Mikoto: Misaka_Mikoto
+  Yuka: Yuuka
+  nonomi: Nonomi
+  'Misaki-redirect': Shokuhou_Misaki
