@@ -30,17 +30,6 @@ public class YemaoCommand extends JCompositeCommand {
     }
 
     @SubCommand
-    @Description("添加皮肤条目")
-    public void costume(CommandSender sender, String costumeName, String pathname ) {
-        Map<String, String> costumeMap = Util.costumeMap;
-        if (!costumeMap.containsKey(costumeName)) {
-            costumeMap.put(costumeName, pathname);
-        }
-        if (sender.getSubject() != null) sender.getSubject().sendMessage("添加成功");
-        Util.downloadAll(false);
-    }
-
-    @SubCommand
     @Description("重新下载所有图片")
     public void download(CommandSender sender) {
         if (sender.getSubject() != null) sender.getSubject().sendMessage("开始下载");

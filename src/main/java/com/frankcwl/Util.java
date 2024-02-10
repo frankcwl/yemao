@@ -23,7 +23,6 @@ import java.util.regex.Pattern;
 public class Util {
     public static Map<String, String> cvMap;
     public static Map<String, String> redirectMap;
-    public static Map<String, String> costumeMap;
     public static Map<String, List<String>> nicknameMap;
     public static MiraiLogger logger = Yemao.INSTANCE.getLogger();
     public static Friend friend;
@@ -31,11 +30,9 @@ public class Util {
     public static void initialize() {
         Value<Map<String, String>> cvMap = PathnameData.INSTANCE.cvMap;
         Value<Map<String, String>> redirectMap = PathnameData.INSTANCE.redirectMap;
-        Value<Map<String, String>> costumeMap = PathnameData.INSTANCE.costumeMap;
         Value<Map<String, List<String>>> nicknameMap = NicknameData.INSTANCE.nicknameMap;
         Util.cvMap = cvMap.get();
         Util.redirectMap = redirectMap.get();
-        Util.costumeMap = costumeMap.get();
         Util.nicknameMap = nicknameMap.get();
     }
 
@@ -66,7 +63,7 @@ public class Util {
             figure = figure.nextElementSibling();
         }
         if (figure == null) return null;
-        return "https:" + figure.select("img").attr("data-src");
+        return figure.select("img").attr("data-src");
     }
 
     public static void download(String schoolName, boolean forceDownload) throws IOException {
@@ -82,7 +79,7 @@ public class Util {
         for (Element line : lines) {
             String pathname;
             // 获取角色英文名
-            Matcher matcher = Pattern.compile("[(|/](\\w+?)[/|)]").matcher(line.text());
+            Matcher matcher = Pattern.compile("[/(](\\w+?)[/)）]").matcher(line.text());
             if (matcher.find()) {
                 pathname = matcher.group(1);
             } else {
@@ -91,29 +88,20 @@ public class Util {
                 lines.remove(line);
                 continue;
             }
-            pathname = pathname.toLowerCase().replaceFirst("^(\\w)", String.valueOf(pathname.charAt(0)).toUpperCase());
             // 重定向角色名（食蜂操祈重名特殊处理）
-            if (pathname.equals("Misaki") && line.text().contains("连动")) {
-                pathname += "_Special";
+            if (pathname.equals("Misaki") && line.text().contains("青春纪录")) {
+                pathname = "Misaki-redirect";
             }
-            if (redirectMap.get(pathname) != null) {
-                pathname = redirectMap.get(pathname);
-            }
-            // 获取角色皮肤名
-            for (String key : costumeMap.keySet()) {
-                matcher = Pattern.compile("\\. *" + key).matcher(line.text());
-                if (matcher.find()) {
-                    pathname = pathname + "_" + costumeMap.get(key);
-                    break;
-                }
+            String[] names = pathname.split("_");
+            if (redirectMap.get(names[0]) != null) {
+                names[0] = redirectMap.get(names[0]);
+                pathname = String.join("_",names);
             }
             // 检查是否重复
             for (int i = 0; i < pathnameList.size(); i++) {
                 if (pathnameList.get(i).equals(pathname)) {
-                    logger.warning(pathname + "重复(" + schoolName + ")");
-                    friend.sendMessage(pathname + "重复\n" + getNameString(line) + "\n"
-                            + getNameString(lines.get(i)) + "\n请添加皮肤条目\n" +
-                            "格式：/yemao costume 皮肤名 皮肤英文");
+                    System.out.println(pathname + "重复\n" + getNameString(line) + "\n"
+                            + getNameString(lines.get(i)));
                 }
             }
             pathnameList.add(pathname);
@@ -135,7 +123,7 @@ public class Util {
             if (!nicknameMap.containsKey(pathnameList.get(i))) {
                 friend.sendMessage(
                         new PlainText("请为" + pathnameList.get(i) + "添加昵称（" + schoolName + "）\n" +
-                        "格式：/yemao nickname " + pathnameList.get(i) +"昵称1 昵称2 ...")
+                        "格式：/yemao nickname " + pathnameList.get(i) +" 昵称1 昵称2 ...")
                         .plus(ExternalResource.uploadAsImage(file, friend)));
             }
         }

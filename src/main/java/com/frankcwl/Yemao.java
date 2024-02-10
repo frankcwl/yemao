@@ -18,7 +18,7 @@ import java.util.TimerTask;
 public final class Yemao extends JavaPlugin {
     public static final Yemao INSTANCE = new Yemao();
     private Yemao() {
-        super(new JvmPluginDescriptionBuilder("com.frankcwl.yemao", "2.0.2")
+        super(new JvmPluginDescriptionBuilder("com.frankcwl.yemao", "2.1.0")
                 .name("yemao")
                 .author("frankcwl")
                 .build());
@@ -31,7 +31,7 @@ public final class Yemao extends JavaPlugin {
         reloadPluginData(NicknameData.INSTANCE);
         reloadPluginConfig(YemaoConfig.INSTANCE);
 
-        Value<Long> theAdmin = YemaoConfig.INSTANCE.yemaoPath;
+        Value<Long> theAdmin = YemaoConfig.INSTANCE.admin;
         Long admin = theAdmin.get();
         Util.initialize();
 
