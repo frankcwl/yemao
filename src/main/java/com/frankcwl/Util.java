@@ -63,7 +63,9 @@ public class Util {
             figure = figure.nextElementSibling();
         }
         if (figure == null) return null;
-        return figure.select("img").attr("data-src");
+        String imgUrl = figure.select("img").attr("data-src");
+        if (!imgUrl.startsWith("https:")) imgUrl = "https:" + imgUrl;
+        return imgUrl;
     }
 
     public static void download(String schoolName, boolean forceDownload) throws IOException {

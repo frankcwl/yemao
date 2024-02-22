@@ -18,7 +18,7 @@ import java.util.TimerTask;
 public final class Yemao extends JavaPlugin {
     public static final Yemao INSTANCE = new Yemao();
     private Yemao() {
-        super(new JvmPluginDescriptionBuilder("com.frankcwl.yemao", "2.1.0")
+        super(new JvmPluginDescriptionBuilder("com.frankcwl.yemao", "2.1.1")
                 .name("yemao")
                 .author("frankcwl")
                 .build());
